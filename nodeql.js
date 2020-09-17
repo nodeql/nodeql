@@ -1,7 +1,9 @@
+//sql CREATE TABLE
 exports.create_table = (columns = []) => {
 	this.columns = columns;
 	this.data = []
 
+	//sql INSERT INTO
 	this.insert = (columns = [],data = []) => {
 		temp = [];
 		for(var i=0;i<this.columns.length;i++){
@@ -15,13 +17,12 @@ exports.create_table = (columns = []) => {
 		this.data.push(temp);
 	}
 
-	this.export = (type='csv',header=true) => {
+	//export to file (csv only)
+	this.export = (type='csv') => {
 		if(type === 'csv'){
 			temp = '';
-			if(header){
-				temp += this.columns.join(',');
-				temp += '\n';
-			}
+			temp += this.columns.join(',');
+			temp += '\n';
 			for(var i=0;i<this.data.length;i++){
 				temp += this.data[i].join(',');
 				temp += '\n';
