@@ -20,9 +20,21 @@ class Table {
 		this.data.push(temp);
 	}
 
-	//export to string (csv only)
-	export(type='csv'){
-		if(type === 'csv'){
+	//export to string (obj/csv)
+	export(type='obj'){
+		if(type == 'obj'){
+			var output = [];
+			for(var i=0;i<this.data.length;i++){
+				var temp = {}
+				for(var j=0;j<this.columns.length;j++){
+					if(this.data[i][j]){
+						temp[this.columns[j]]=this.data[i][j];
+					}
+				}
+				output.push(temp);
+			}
+			return(output);
+		}else if(type === 'csv'){
 			var temp = '';
 			temp += this.columns.join(',');
 			temp += '\n';
