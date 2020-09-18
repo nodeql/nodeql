@@ -1,7 +1,7 @@
-//sql CREATE TABLE
-exports.create_table = (columns = []) => {
+//table object
+table = (columns,data) => {
 	this.columns = columns;
-	this.data = []
+	this.data = data;
 
 	//sql INSERT INTO
 	this.insert = (columns = [],data = []) => {
@@ -17,7 +17,7 @@ exports.create_table = (columns = []) => {
 		this.data.push(temp);
 	}
 
-	//export to file (csv only)
+	//export to string (csv only)
 	this.export = (type='csv') => {
 		if(type === 'csv'){
 			temp = '';
@@ -32,4 +32,22 @@ exports.create_table = (columns = []) => {
 	}
 
 	return this;
+}
+
+//sql CREATE TABLE
+exports.create_table = (columns) => {
+	return table(columns,[]);
+}
+
+//import from string (csv only)
+exports.import = (file='',type='csv') => {
+	if(type == 'csv'){
+		lines = file.split('\n');
+		var columns = lines[0].split(',');
+		var data = [];
+		for(var i=1;i<lines.length;i++){
+			data.push(lines[i].split(','));
+		}
+		return table(columns,data);
+	}
 }
