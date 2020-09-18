@@ -1,13 +1,16 @@
 //table object
-table = (columns,data) => {
-	this.columns = columns;
-	this.data = data;
+class Table {
+
+	constructor(columns,data){
+		this.columns = columns;
+		this.data = data;
+	}
 
 	//sql INSERT INTO
-	this.insert = (columns = [],data = []) => {
-		temp = [];
+	insert(columns = [],data = []){
+		var temp = [];
 		for(var i=0;i<this.columns.length;i++){
-			index = columns.indexOf(this.columns[i]);
+			var index = columns.indexOf(this.columns[i]);
 			if(index !== -1){
 				temp.push(data[index]);
 			}else{
@@ -18,9 +21,9 @@ table = (columns,data) => {
 	}
 
 	//export to string (csv only)
-	this.export = (type='csv') => {
+	export(type='csv'){
 		if(type === 'csv'){
-			temp = '';
+			var temp = '';
 			temp += this.columns.join(',');
 			temp += '\n';
 			for(var i=0;i<this.data.length;i++){
@@ -30,13 +33,11 @@ table = (columns,data) => {
 			return temp.slice(0,-1);
 		}
 	}
-
-	return this;
 }
 
 //sql CREATE TABLE
 exports.create_table = (columns) => {
-	return table(columns,[]);
+	return new Table(columns,[]);
 }
 
 //import from string (csv only)
@@ -48,6 +49,6 @@ exports.import = (file='',type='csv') => {
 		for(var i=1;i<lines.length;i++){
 			data.push(lines[i].split(','));
 		}
-		return table(columns,data);
+		return new Table(columns,data);
 	}
 }
